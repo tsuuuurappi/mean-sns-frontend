@@ -1,0 +1,3 @@
+# es7 react/redux/...
+Reactの補完ツール
+・rfcでReact Function Conponentを生成できるようになる
