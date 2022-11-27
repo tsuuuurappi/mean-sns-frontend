@@ -1,10 +1,11 @@
 import { MoreVert } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import './Post.css';
-// import { Users } from '../../dummyData';
 import axios from 'axios';
 import { format } from 'timeago.js';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../state/AuthContext';
 
 export default function Post({ post }) {
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -13,16 +14,24 @@ export default function Post({ post }) {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
 
+  const { user: curremtUser } = useContext(AuthContext);
+
   useEffect(() => {
     const fetchUser = async () => {
       const response = await axios.get(`/users?userId=${post.userId}`);
-      // console.log(response);
       setUser(response.data);
     };
     fetchUser();
   }, [post.userId]);
 
-  const handleLike = () => {
+  const handleLike = async () => {
+    try {
+      // いいねのAPIを叩いていく
+      await axios.put(`/posts/${post._id}/like`, { userId: curremtUser._id });
+    } catch (err) {
+      console.log(err);
+    }
+
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
@@ -34,7 +43,11 @@ export default function Post({ post }) {
           <div className="postTopLeft">
             <Link to={`/profile/${user.username}`}>
               <img
-                src={user.profilePicture || PUBLIC_FOLDER + '/person/noAvatar.png'}
+                src={
+                  user.profilePicture
+                    ? PUBLIC_FOLDER + user.profilePicture
+                    : PUBLIC_FOLDER + 'person/noAvatar.png'
+                }
                 alt=""
                 className="postProfileImg"
               />
@@ -48,12 +61,12 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <span className="postText">{post.desc}</span>
-          <img src={PUBLIC_FOLDER + post.img} alt="" className="postImg" />
+          <img src={post.img ? PUBLIC_FOLDER + post.img : ''} alt="" className="postImg" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
             <img
-              src={PUBLIC_FOLDER + '/heart.png'}
+              src={PUBLIC_FOLDER + 'heart.png'}
               alt=""
               className="likeIcon"
               onClick={() => handleLike()}

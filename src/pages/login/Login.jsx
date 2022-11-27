@@ -1,15 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
+import { loginCall } from '../../actionCalls';
+import { AuthContext } from '../../state/AuthContext';
 import './Login.css';
 
 export default function Login() {
-  // input要素を監視できる
+  // useRefでinput要素を監視できる
   const email = useRef();
   const password = useRef();
+  const { user, isFetching, error, dispatch } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email.current.value);
-    console.log(password.current.value);
+    loginCall(
+      {
+        email: email.current.value,
+        password: password.current.value,
+      },
+      dispatch
+    );
   };
 
   return (
