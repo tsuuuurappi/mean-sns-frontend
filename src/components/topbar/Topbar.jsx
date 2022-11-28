@@ -41,6 +41,16 @@ export default function Topbar() {
               className="topbarImg"
             />
           </Link>
+          <img
+            src={PUBLIC_FOLDER + 'logout.jpeg'}
+            alt=""
+            className="topbarImgLogout"
+            onClick={() => {
+              localStorage.removeItem('user');
+              window.location.reload();
+            }}
+          />
+          {/* {localStorage.removeItem('user')} */}
         </div>
       </div>
     </div>

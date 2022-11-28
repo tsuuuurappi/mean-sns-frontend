@@ -14,7 +14,7 @@ export default function Post({ post }) {
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState({});
 
-  const { user: curremtUser } = useContext(AuthContext);
+  const { user: currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,7 +27,7 @@ export default function Post({ post }) {
   const handleLike = async () => {
     try {
       // いいねのAPIを叩いていく
-      await axios.put(`/posts/${post._id}/like`, { userId: curremtUser._id });
+      await axios.put(`/posts/${post._id}/like`, { userId: currentUser._id });
     } catch (err) {
       console.log(err);
     }

@@ -90,3 +90,12 @@
   cursor: pointer;
   object-fit: cover;
 }
+
+.topbarImgLogout {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  margin-left: 12px;
+}
