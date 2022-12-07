@@ -24,3 +24,5 @@ yarn-error.log*
 
 readme.txt
 description.txt
+
+.env
